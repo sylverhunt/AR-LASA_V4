@@ -884,153 +884,158 @@ function onScanFailure(error) {
                 tbody.appendChild(tr);
             });
         }
-// ====================== KUIS EVALUASI ======================
 
-// DATA KUIS (20 SOAL)
+
+// ====================== DATA KUIS ======================
 const dataKuis = [
-
-{ q: "Fungsi utama gelas ukur adalah...", opt: ["Menyaring larutan", "Mengukur volume cairan", "Memanaskan zat", "Menyimpan bahan"], ans: 1 },
-{ q: "Pengganti gelas ukur adalah...", opt: ["Piring", "Gelas takar dapur", "Sendok", "Ember"], ans: 1 },
-{ q: "Kelemahan utama alat pengganti adalah...", opt: ["Tidak bisa digunakan", "Tidak memiliki fungsi", "Akurasi lebih rendah", "Lebih mahal"], ans: 2 },
-{ q: "Alat untuk memindahkan cairan sedikit adalah...", opt: ["Beaker", "Pipet tetes", "Corong", "Buret"], ans: 1 },
-{ q: "Pengganti pipet tetes adalah...", opt: ["Sedotan", "Pipet obat", "Gelas", "Sendok"], ans: 1 },
-{ q: "Fungsi corong adalah...", opt: ["Mengaduk", "Memindahkan cairan", "Mengukur massa", "Memanaskan"], ans: 1 },
-{ q: "Pengganti corong adalah...", opt: ["Corong plastik", "Sendok", "Botol", "Kertas"], ans: 0 },
-{ q: "Batang pengaduk berfungsi untuk...", opt: ["Menimbang", "Mengukur", "Mengaduk", "Menyaring"], ans: 2 },
-{ q: "Pengganti batang pengaduk adalah...", opt: ["Garpu", "Sumpit", "Pisau", "Sendok"], ans: 1 },
-{ q: "Alat penyaring adalah...", opt: ["Kertas saring", "Tabung reaksi", "Buret", "Pipet"], ans: 0 },
-{ q: "Pengganti kertas saring adalah...", opt: ["Plastik", "Kapas wajah", "Kaca", "Kayu"], ans: 1 },
-{ q: "Fungsi beaker glass adalah...", opt: ["Mengukur massa", "Wadah mencampur", "Menyaring", "Mengukur panjang"], ans: 1 },
-{ q: "Pengganti beaker adalah...", opt: ["Gelas takar", "Ember", "Sendok", "Botol"], ans: 0 },
-{ q: "K3 berarti...", opt: ["Keamanan alat", "Keselamatan kerja", "Kecepatan kerja", "Kebersihan"], ans: 1 },
-{ q: "Sarana pengganti digunakan karena...", opt: ["Lebih mahal", "Lebih sulit", "Lebih mudah didapat", "Tidak perlu alat asli"], ans: 2 },
-
-// TAMBAHAN ANDA
-{ q: "Alat yang bisa diganti sumpit adalah...", opt: ["Pipet", "Batang Pengaduk", "Spatula", "Gelas Ukur"], ans: 1 },
-{ q: "Pengganti kertas saring adalah...", opt: ["Plastik", "Kapas wajah", "Kertas HVS", "Daun pisang"], ans: 1 },
-{ q: "Kelemahan gelas takar plastik adalah...", opt: ["Mahal", "Tidak tahan api langsung", "Mudah pecah", "Tidak ada skala"], ans: 1 },
-{ q: "Pengganti plat tetes adalah...", opt: ["Cetakan jelly", "Botol aqua", "Sendok teh", "Kaleng"], ans: 0 },
-{ q: "Fungsi corong plastik adalah...", opt: ["Mengukur", "Memindahkan cairan", "Menyimpan", "Memanaskan"], ans: 1 }
-
+    { q: "Fungsi utama gelas ukur adalah...", opt: ["Menyaring larutan", "Mengukur volume cairan", "Memanaskan zat", "Menyimpan bahan"], ans: 1 },
+    { q: "Pengganti gelas ukur adalah...", opt: ["Piring", "Gelas takar dapur", "Sendok", "Ember"], ans: 1 },
+    { q: "Kelemahan utama alat pengganti adalah...", opt: ["Tidak bisa digunakan", "Tidak memiliki fungsi", "Akurasi lebih rendah", "Lebih mahal"], ans: 2 },
+    { q: "Alat untuk memindahkan cairan sedikit adalah...", opt: ["Beaker", "Pipet tetes", "Corong", "Buret"], ans: 1 },
+    { q: "Pengganti pipet tetes adalah...", opt: ["Sedotan", "Pipet obat", "Gelas", "Sendok"], ans: 1 },
+    { q: "Fungsi corong adalah...", opt: ["Mengaduk", "Memindahkan cairan", "Mengukur massa", "Memanaskan"], ans: 1 },
+    { q: "Pengganti corong adalah...", opt: ["Corong plastik", "Sendok", "Botol", "Kertas"], ans: 0 },
+    { q: "Batang pengaduk berfungsi untuk...", opt: ["Menimbang", "Mengukur", "Mengaduk", "Menyaring"], ans: 2 },
+    { q: "Pengganti batang pengaduk adalah...", opt: ["Garpu", "Sumpit", "Pisau", "Sendok"], ans: 1 },
+    { q: "Alat penyaring adalah...", opt: ["Kertas saring", "Tabung reaksi", "Buret", "Pipet"], ans: 0 },
+    { q: "Pengganti kertas saring adalah...", opt: ["Plastik", "Kapas wajah", "Kaca", "Kayu"], ans: 1 },
+    { q: "Fungsi beaker glass adalah...", opt: ["Mengukur massa", "Wadah mencampur", "Menyaring", "Mengukur panjang"], ans: 1 },
+    { q: "Pengganti beaker adalah...", opt: ["Gelas takar", "Ember", "Sendok", "Botol"], ans: 0 },
+    { q: "K3 berarti...", opt: ["Keamanan alat", "Keselamatan kerja", "Kecepatan kerja", "Kebersihan"], ans: 1 },
+    { q: "Sarana pengganti digunakan karena...", opt: ["Lebih mahal", "Lebih sulit", "Lebih mudah didapat", "Tidak perlu alat asli"], ans: 2 },
+    { q: "Alat yang bisa diganti sumpit adalah...", opt: ["Pipet", "Batang Pengaduk", "Spatula", "Gelas Ukur"], ans: 1 },
+    { q: "Pengganti kertas saring adalah...", opt: ["Plastik", "Kapas wajah", "Kertas HVS", "Daun pisang"], ans: 1 },
+    { q: "Kelemahan gelas takar plastik adalah...", opt: ["Mahal", "Tidak tahan api langsung", "Mudah pecah", "Tidak ada skala"], ans: 1 },
+    { q: "Pengganti plat tetes adalah...", opt: ["Cetakan jelly", "Botol aqua", "Sendok teh", "Kaleng"], ans: 0 },
+    { q: "Fungsi corong plastik adalah...", opt: ["Mengukur", "Memindahkan cairan", "Menyimpan", "Memanaskan"], ans: 1 }
 ];
 
-// STATE
+// ====================== STATE ======================
 let currentQuizIdx = 0;
 let quizScore = 0;
+let answered = false;
 
-// LOAD SOAL
-function loadQuiz() {
-
-const data = dataKuis[currentQuizIdx];
-
-document.getElementById("quiz-question").innerText = data.q;
-document.getElementById("quiz-progress").innerText =
-"Soal " + (currentQuizIdx + 1) + " dari " + dataKuis.length;
-
-document.getElementById("quiz-score").innerText =
-"Skor: " + quizScore;
-
-const container = document.getElementById("quiz-options");
-container.innerHTML = "";
-
-data.opt.forEach((opt, i) => {
-
-let btn = document.createElement("button");
-btn.className = "btn btn-outline";
-btn.innerText = opt;
-
-btn.onclick = function() {
-checkAnswer(i);
+// ====================== INIT ======================
+window.onload = function () {
+    loadQuiz();
 };
 
-container.appendChild(btn);
+// ====================== LOAD QUIZ ======================
+function loadQuiz() {
+    const data = dataKuis[currentQuizIdx];
+    answered = false;
 
-});
+    document.getElementById("quiz-question").innerText = data.q;
+
+    document.getElementById("quiz-progress").innerText =
+        `Soal ${currentQuizIdx + 1} dari ${dataKuis.length}`;
+
+    document.getElementById("quiz-score").innerText =
+        `Skor: ${quizScore}`;
+
+    const container = document.getElementById("quiz-options");
+    container.innerHTML = "";
+
+    const feedback = document.getElementById("quiz-feedback");
+    feedback.style.display = "none";
+    feedback.innerHTML = "";
+
+    data.opt.forEach((opt, i) => {
+        const btn = document.createElement("button");
+        btn.className = "btn btn-outline";
+        btn.innerText = opt;
+
+        btn.onclick = function () {
+            if (answered) return;
+            checkAnswer(i);
+        };
+
+        container.appendChild(btn);
+    });
 }
 
-// CEK JAWABAN
+// ====================== CHECK ANSWER ======================
 function checkAnswer(selected) {
+    answered = true;
 
-const correct = dataKuis[currentQuizIdx].ans;
-const feedback = document.getElementById("quiz-feedback");
+    const correct = dataKuis[currentQuizIdx].ans;
+    const feedback = document.getElementById("quiz-feedback");
 
-feedback.style.display = "block";
+    feedback.style.display = "block";
 
-if (selected === correct) {
+    if (selected === correct) {
+        quizScore += 5;
+        feedback.style.background = "#dcfce7";
+        feedback.style.color = "#166534";
+        feedback.innerHTML = "✅ Jawaban BENAR";
+    } else {
+        feedback.style.background = "#fee2e2";
+        feedback.style.color = "#991b1b";
+        feedback.innerHTML = "❌ Jawaban SALAH";
+    }
 
-quizScore += 5;
+    document.getElementById("quiz-score").innerText =
+        `Skor: ${quizScore}`;
 
-feedback.style.background = "#dcfce7";
-feedback.style.color = "#166534";
-feedback.innerHTML = "✅ Jawaban BENAR";
+    // LOCK semua tombol
+    document.querySelectorAll("#quiz-options button")
+        .forEach(btn => btn.disabled = true);
 
-} else {
-
-feedback.style.background = "#fee2e2";
-feedback.style.color = "#991b1b";
-feedback.innerHTML = "❌ Jawaban SALAH";
-
+    // auto lanjut
+    setTimeout(() => {
+        nextQuestion();
+    }, 800);
 }
 
-document.getElementById("quiz-score").innerText =
-"Skor: " + quizScore;
-
-document.getElementById("btn-next-quiz").style.display = "block";
-}
-
-// NEXT SOAL
+// ====================== NEXT QUESTION ======================
 function nextQuestion() {
+    currentQuizIdx++;
 
-currentQuizIdx++;
-
-document.getElementById("quiz-feedback").style.display = "none";
-document.getElementById("btn-next-quiz").style.display = "none";
-
-if (currentQuizIdx < dataKuis.length) {
-loadQuiz();
-} else {
-showResult();
-}
+    if (currentQuizIdx < dataKuis.length) {
+        loadQuiz();
+    } else {
+        showResult();
+    }
 }
 
-// HASIL AKHIR
+// ====================== SHOW RESULT ======================
 function showResult() {
+    document.getElementById("quiz-question").innerText = "Quiz Selesai";
+    document.getElementById("quiz-progress").innerText = "";
 
-document.getElementById("quiz-card").innerHTML = `
-<h3>Quiz Selesai</h3>
-<p>Skor Anda: <b>${quizScore}</b></p>
-<button class="btn btn-success" onclick="downloadCSV()">Download Excel</button>
-<button class="btn" onclick="resetQuiz()">Ulangi</button>
-`;
+    document.getElementById("quiz-score").innerHTML =
+        `Skor akhir: <b>${quizScore}</b>`;
 
+    document.getElementById("quiz-options").innerHTML = `
+        <button class="btn btn-success" onclick="downloadCSV()">Download Excel</button>
+        <button class="btn btn-danger" onclick="resetQuiz()">Ulangi</button>
+    `;
+
+    const feedback = document.getElementById("quiz-feedback");
+    feedback.style.display = "none";
 }
 
-// DOWNLOAD CSV (EXCEL)
+// ====================== DOWNLOAD CSV ======================
 function downloadCSV() {
+    let csv = "Nama,Skor\n";
+    csv += "Siswa," + quizScore;
 
-let csv = "Nama,Skor\n";
-csv += "Siswa," + quizScore;
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
 
-const blob = new Blob([csv], { type: "text/csv" });
-const url = window.URL.createObjectURL(blob);
-
-const a = document.createElement("a");
-a.href = url;
-a.download = "hasil_quiz.csv";
-a.click();
-
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "hasil_quiz.csv";
+    a.click();
 }
 
-// RESET
+// ====================== RESET QUIZ (STABLE) ======================
 function resetQuiz() {
-currentQuizIdx = 0;
-quizScore = 0;
-location.reload();
-}
+    currentQuizIdx = 0;
+    quizScore = 0;
+    answered = false;
 
-// AUTO LOAD
-window.onload = function() {
-loadQuiz();
+    loadQuiz();
 }
     </script>
 </body>
