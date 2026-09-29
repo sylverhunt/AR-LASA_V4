@@ -150,6 +150,44 @@
         th, td { padding: 10px 12px; text-align: left; }
         th { background-color: #f8fafc; color: #334155; font-weight: 700; border-bottom: 1px solid #e2e8f0; }
         td { border-bottom: 1px solid #f1f5f9; background: white; }
+
+        /* Gambar pada materi alat */
+        .materi-image-wrap {
+            width: 100%;
+            height: 230px;
+            margin: 0 auto 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .materi-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 8px;
+        }
+        .image-fallback {
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: #64748b;
+            text-align: center;
+            padding: 16px;
+            font-size: 13px;
+        }
+        .image-fallback small { font-size: 11px; }
+        @media (max-width: 380px) {
+            .materi-image-wrap { height: 190px; }
+        }
+
     </style>
 </head>
 <body>
@@ -644,36 +682,36 @@
 
         // 30 Data Alat Lab dan Penggantinya berdasarkan gambar
         const dataAlat = [
-            { id: 1, nama: "Desikator", pengganti: "Toples kedap udara + silica gel/beras", bahan: "Toples kaca/plastik & Silica gel", fungsi: "Menghilangkan kadar air / menjaga kelembapan benda.", kelebihan: "Praktis, murah, kedap udara.", kekurangan: "Tingkat vakum tidak sekuat alat asli.", langkah: "Masukkan beras/silica gel di dasar toples kedap udara." },
-            { id: 2, nama: "Kawat kasa", pengganti: "Saringan kawat atau tatakan panci besi", bahan: "Kawat besi / Stainless steel", fungsi: "Alas perataan panas saat pemanasan.", kelebihan: "Tahan panas, mudah ditemukan.", kekurangan: "Penyebaran panas kurang merata tanpa lapisan asbes/keramik.", langkah: "Gunakan saringan kawat datar di atas penyangga pemanas." },
-            { id: 3, nama: "Klem buret", pengganti: "Jepitan jemuran atau penjepit pipa", bahan: "Plastik tebal / Logam", fungsi: "Memegang buret pada statif.", kelebihan: "Kuat dan hemat biaya.", kekurangan: "Memerlukan penyesuaian agar posisi tegak lurus.", langkah: "Jepitkan penjepit pipa pada tiang statif buatan." },
-            { id: 4, nama: "Corong gelas", pengganti: "Corong plastik dapur", bahan: "Plastik PP", fungsi: "Memindahkan cairan ke wadah bermulut kecil.", kelebihan: "Tahan pecah, aman.", kekurangan: "Tidak tahan beberapa zat pelarut kimia keras.", langkah: "Bersihkan corong dapur plastik sebelum digunakan." },
-            { id: 5, nama: "Oven", pengganti: "Oven listrik / oven kompor rumah", bahan: "Logam pemanas", fungsi: "Mengeringkan atau memanaskan alat/bahan.", kelebihan: "Kapasitas cukup besar.", kekurangan: "Kontrol suhu kurang presisi dibanding oven lab.", langkah: "Atur suhu oven dapur pada kisaran 100°C." },
-            { id: 6, nama: "Kaki tiga", pengganti: "Tatakan panci besi", bahan: "Besi/Logam", fungsi: "Penyangga wadah saat pemanasan.", kelebihan: "Sangat kokoh.", kekurangan: "Ketinggian penyangga tidak dapat diatur.", langkah: "Letakkan tatakan panci di atas sumber api/lilin." },
-            { id: 7, nama: "Botol semprot", pengganti: "Botol spray bekas parfum/pembersih", bahan: "Plastik HDPE/PET", fungsi: "Menyimpan dan menyemprotkan akuades.", kelebihan: "Mudah disemprotkan.", kekurangan: "Kapasitas cairan terbatas.", langkah: "Cuci bersih botol bekas hingga hilang sisa wewangian/kimia." },
-            { id: 8, nama: "Kawat nikrom", pengganti: "Kawat besi tipis (demonstrasi)", bahan: "Kawat besi / Tembaga tipis", fungsi: "Uji nyala api / transfer sampel mikro.", kelebihan: "Mudah didapat.", kekurangan: "Dapat memberikan warna nyala pengotor jika tidak murni.", langkah: "Bakar ujung kawat besi hingga bersih sebelum uji nyala." },
-            { id: 9, nama: "Pipet kapiler", pengganti: "Sedotan kecil atau sedotan kopi", bahan: "Plastik tipis", fungsi: " mengambil cairan volume sangat sedikit.", kelebihan: "Ringan, fleksibel.", kekurangan: "Diameter lebih besar dibanding kapiler asli.", langkah: "Potong sedotan kopi menjadi ukuran 10 cm." },
-            { id: 10, nama: "Cawan petri", pengganti: "Tutup toples bening atau wadah plastik kecil", bahan: "Plastik transparan", fungsi: "Wadah pembiakan mikroba / pengamatan sampel.", kelebihan: "Transparan dan murah.", kekurangan: "Tidak tahan sterilisasi suhu tinggi (autoklaf).", langkah: "Gunakan tutup toples bening yang telah disterilkan alkohol." },
-            { id: 11, nama: "Rak tabung reaksi", pengganti: "Rak telur atau wadah sendok berlubang", bahan: "Karton/Plastik/Kayu", fungsi: "Menempatkan tabung reaksi secara tegak.", kelebihan: "Stabil, mencegah tabung tumpah.", kekurangan: "Ukuran lubang perlu disesuaikan.", langkah: "Gunakan tempat telur atau wadah sendok berlubang." },
-            { id: 12, nama: "Pemanas/Bunsen", pengganti: "Kompor gas, kompor spiritus, atau lilin", bahan: "Sumbu & bahan bakar spiritus/lilin", fungsi: "Menghasilkan api untuk pemanasan sampel.", kelebihan: "Mudah dinyalakan.", kekurangan: "Suhu api dan jelaga sulit dikontrol pada lilin.", langkah: "Gunakan lampu spiritus sederhana atau kompor portabel." },
-            { id: 13, nama: "Tanur", pengganti: "Tungku pembakaran sederhana", bahan: "Batu bata/Tanah liat & arang", fungsi: "Pemanasan suhu sangat tinggi (pengabuan).", kelebihan: "Suhu lumayan tinggi.", kekurangan: "Suhu sulit diukur secara pasti tanpa termokopel.", langkah: "Susun batu bata membentuk ruang bakar kecil berpenutup." },
-            { id: 14, nama: "Spatula", pengganti: "Sendok teh kecil atau stik es krim", bahan: "Stainless steel / Kayu", fungsi: "Mengambil bahan kimia padat/bubuk.", kelebihan: "Aman, anti karat.", kekurangan: "Bentuk kurang panjang.", langkah: "Gunakan sendok teh stainless steel yang kering dan bersih." },
-            { id: 15, nama: "Neraca analitik", pengganti: "Timbangan digital dapur", bahan: "Elektronik sensor", fungsi: "Menimbang massa zat padat.", kelebihan: "Praktis dan mudah dibaca.", kekurangan: "Ketelitian terbatas (biasanya hanya 0.1g atau 1g).", langkah: "Letakkan timbangan di permukaan rata dan tara ke angka nol." },
-            { id: 16, nama: "Penjepit kayu", pengganti: "Jepit baju kayu", bahan: "Kayu & pegas", fungsi: "Memegang tabung reaksi saat dipanaskan.", kelebihan: "Isolator panas yang baik.", kekurangan: "Jepitan kurang panjang.", langkah: "Gunakan jepit baju kayu bersih untuk memegang tabung." },
-            { id: 17, nama: "Autoklaf", pengganti: "Panci presto", bahan: "Aluminium / Stainless tebal", fungsi: "Sterilisasi alat/bahan berpemerangkap tekanan.", kelebihan: "Mampu menghasilkan uap panas bertekanan.", kekurangan: "Tidak ada pengukur suhu otomatis.", langkah: "Panaskan panci presto hingga mengeluarkan uap bertekanan." },
-            { id: 18, nama: "Batang pengaduk", pengganti: "Sendok stainless, sumpit, atau stik kaca", bahan: "Stainless / Kayu / Kaca", fungsi: "Mengaduk campuran larutan.", kelebihan: "Sangat mudah diperoleh.", kekurangan: "Bahan kayu dapat menyerap sedikit cairan.", langkah: "Gunakan sumpit stainless steel bersih untuk mengaduk." },
-            { id: 19, nama: "Statif", pengganti: "Tripod HP atau gantungan besi", bahan: "Logam / Plastik", fungsi: "Penyangga berdiri untuk klem.", kelebihan: "Tinggi dapat disesuaikan.", kekurangan: "Keseimbangan beban terbatas.", langkah: "Pasang clamp adapter pada tiang tripod HP." },
-            { id: 20, nama: "Kertas saring", pengganti: "Filter kopi atau kain katun bersih", bahan: "Kertas selulosa / Kain", fungsi: "Memisahkan endapan dari cairan.", kelebihan: "Daya saring cukup baik.", kekurangan: "Pori-pori relatif lebih besar dari kertas saring lab.", langkah: "Potong filter kopi berbentuk lingkaran atau corong." },
-            { id: 21, nama: "Water bath", pengganti: "Panci berisi air panas", bahan: "Logam panci & air", fungsi: "Pemanasan konstan dengan media air.", kelebihan: "Cepat dan aman.", kekurangan: "Suhu harus dijaga secara manual.", langkah: "Isi panci dengan air dan panaskan di atas kompor." },
-            { id: 22, nama: "Inkubator", pengganti: "Kotak styrofoam dengan lampu / rice cooker mode hangat", bahan: "Styrofoam & Lampu bohlam", fungsi: "Mengondisikan suhu hangat pengembang mikroba.", kelebihan: "Menjaga suhu stabil.", kekurangan: "Perlu pengecekan termometer manual.", langkah: "Pasang lampu bohlam 5W di dalam kotak styrofoam." },
-            { id: 23, nama: "Corong Buchner", pengganti: "Corong plastik yang dilapisi kertas saring", bahan: "Plastik & Kertas saring", fungsi: "Filtrasi vakum cepat.", kelebihan: "Sederhana.", kekurangan: "Proses filtrasi hanya bergantung pada gravitasi.", langkah: "Lapisi bagian dalam corong plastik dengan kertas saring rapat." },
-            { id: 24, nama: "Segitiga porselen", pengganti: "Tatakan besi tahan panas", bahan: "Kawat besi / Logam", fungsi: "Menyangga krusibel saat pemanasan.", kelebihan: "Kuat tahan beban.", kekurangan: "Bukan isolator panas seefektif porselen.", langkah: "Letakkan tatakan besi berbentuk segitiga di atas kaki tiga." },
-            { id: 25, nama: "Mikroskop", pengganti: "Lensa pembesar atau mikroskop HP", bahan: "Lensa & Kamera HP", fungsi: "Mengamati benda berukuran mikroskopis.", kelebihan: "Praktis, gambar bisa difoto.", kekurangan: "Perbesaran terbatas.", langkah: "Jepitkan lensa makro / mikroskop mini pada kamera HP." },
-            { id: 26, nama: "Laminar Air Flow", pengganti: "Kotak plastik bening tertutup (simulasi area bersih)", bahan: "Plastik transparan", fungsi: "Ruang kerja steril untuk inokulasi.", kelebihan: "Mencegah kontaminasi silang luar.", kekurangan: "Tanpa aliran udara terfiltrasi HEPA.", langkah: "Gunakan kontainer plastik bening berlubang samping untuk tangan." },
-            { id: 27, nama: "Tabung reaksi", pengganti: "Tabung kaca kecil (botol parfum) / botol kecil bening", bahan: "Kaca bening", fungsi: "Wadah mereaksikan sedikit zat kimia.", kelebihan: "Bening dan mudah diamati.", kekurangan: "Tidak semua botol parfum tahan panas langsung.", langkah: "Bersihkan botol sampel kaca dari sisa cairan." },
-            { id: 28, nama: "Gelas beker", pengganti: "Gelas takar dapur atau gelas kaca", bahan: "Kaca / Plastik bening", fungsi: "Menampung dan mengukur volume cairan.", kelebihan: "Mudah ditemukan.", kekurangan: "Skala takar dapur kurang presisi.", langkah: "Gunakan gelas kaca bening datar bawah." },
-            { id: 29, nama: "Labu Erlenmeyer", pengganti: "Botol kaca bentuk kerucut (botol sirup)", bahan: "Kaca", fungsi: "Wadah titrasi & mengocok larutan.", kelebihan: "Bentuk bagian bawah lebar dan stabil.", kekurangan: "Mulut botol sirup kadang terlalu sempit.", langkah: "Gunakan botol kaca bekas sirup yang dicuci bersih." },
-            { id: 30, nama: "Labu ukur", pengganti: "Botol kaca bertutup dengan tanda batas", bahan: "Kaca", fungsi: "Membuat larutan standar volume pasti.", kelebihan: "Ekonomis.", kekurangan: "Penandaan batas volume dilakukan secara manual.", langkah: "Beri garis tanda volume pasti pada botol kaca menggunakan stiker." }
+            { id: 1, nama: "Desikator", pengganti: "Toples kedap udara + silica gel/beras", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/desikator.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/desikator.jpg", bahan: "Toples kaca/plastik & Silica gel", fungsi: "Menghilangkan kadar air / menjaga kelembapan benda.", kelebihan: "Praktis, murah, kedap udara.", kekurangan: "Tingkat vakum tidak sekuat alat asli.", langkah: "Masukkan beras/silica gel di dasar toples kedap udara." },
+            { id: 2, nama: "Kawat kasa", pengganti: "Saringan kawat atau tatakan panci besi", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/kawat-kasa.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/kawat-kasa.jpg", bahan: "Kawat besi / Stainless steel", fungsi: "Alas perataan panas saat pemanasan.", kelebihan: "Tahan panas, mudah ditemukan.", kekurangan: "Penyebaran panas kurang merata tanpa lapisan asbes/keramik.", langkah: "Gunakan saringan kawat datar di atas penyangga pemanas." },
+            { id: 3, nama: "Klem buret", pengganti: "Jepitan jemuran atau penjepit pipa", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/klem-buret.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/klem-buret.jpg", bahan: "Plastik tebal / Logam", fungsi: "Memegang buret pada statif.", kelebihan: "Kuat dan hemat biaya.", kekurangan: "Memerlukan penyesuaian agar posisi tegak lurus.", langkah: "Jepitkan penjepit pipa pada tiang statif buatan." },
+            { id: 4, nama: "Corong gelas", pengganti: "Corong plastik dapur", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/corong-gelas.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/corong-gelas.jpg", bahan: "Plastik PP", fungsi: "Memindahkan cairan ke wadah bermulut kecil.", kelebihan: "Tahan pecah, aman.", kekurangan: "Tidak tahan beberapa zat pelarut kimia keras.", langkah: "Bersihkan corong dapur plastik sebelum digunakan." },
+            { id: 5, nama: "Oven", pengganti: "Oven listrik / oven kompor rumah", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/oven.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/oven.jpg", bahan: "Logam pemanas", fungsi: "Mengeringkan atau memanaskan alat/bahan.", kelebihan: "Kapasitas cukup besar.", kekurangan: "Kontrol suhu kurang presisi dibanding oven lab.", langkah: "Atur suhu oven dapur pada kisaran 100°C." },
+            { id: 6, nama: "Kaki tiga", pengganti: "Tatakan panci besi", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/kaki-tiga.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/kaki-tiga.jpg", bahan: "Besi/Logam", fungsi: "Penyangga wadah saat pemanasan.", kelebihan: "Sangat kokoh.", kekurangan: "Ketinggian penyangga tidak dapat diatur.", langkah: "Letakkan tatakan panci di atas sumber api/lilin." },
+            { id: 7, nama: "Botol semprot", pengganti: "Botol spray bekas parfum/pembersih", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/botol-semprot.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/botol-semprot.jpg", bahan: "Plastik HDPE/PET", fungsi: "Menyimpan dan menyemprotkan akuades.", kelebihan: "Mudah disemprotkan.", kekurangan: "Kapasitas cairan terbatas.", langkah: "Cuci bersih botol bekas hingga hilang sisa wewangian/kimia." },
+            { id: 8, nama: "Kawat nikrom", pengganti: "Kawat besi tipis (demonstrasi)", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/kawat-nikrom.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/kawat-nikrom.jpg", bahan: "Kawat besi / Tembaga tipis", fungsi: "Uji nyala api / transfer sampel mikro.", kelebihan: "Mudah didapat.", kekurangan: "Dapat memberikan warna nyala pengotor jika tidak murni.", langkah: "Bakar ujung kawat besi hingga bersih sebelum uji nyala." },
+            { id: 9, nama: "Pipet kapiler", pengganti: "Sedotan kecil atau sedotan kopi", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/pipet-kapiler.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/pipet-kapiler.jpg", bahan: "Plastik tipis", fungsi: " mengambil cairan volume sangat sedikit.", kelebihan: "Ringan, fleksibel.", kekurangan: "Diameter lebih besar dibanding kapiler asli.", langkah: "Potong sedotan kopi menjadi ukuran 10 cm." },
+            { id: 10, nama: "Cawan petri", pengganti: "Tutup toples bening atau wadah plastik kecil", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/cawan-petri.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/cawan-petri.jpg", bahan: "Plastik transparan", fungsi: "Wadah pembiakan mikroba / pengamatan sampel.", kelebihan: "Transparan dan murah.", kekurangan: "Tidak tahan sterilisasi suhu tinggi (autoklaf).", langkah: "Gunakan tutup toples bening yang telah disterilkan alkohol." },
+            { id: 11, nama: "Rak tabung reaksi", pengganti: "Rak telur atau wadah sendok berlubang", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/rak-tabung-reaksi.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/rak-tabung-reaksi.jpg", bahan: "Karton/Plastik/Kayu", fungsi: "Menempatkan tabung reaksi secara tegak.", kelebihan: "Stabil, mencegah tabung tumpah.", kekurangan: "Ukuran lubang perlu disesuaikan.", langkah: "Gunakan tempat telur atau wadah sendok berlubang." },
+            { id: 12, nama: "Pemanas/Bunsen", pengganti: "Kompor gas, kompor spiritus, atau lilin", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/pemanas-bunsen.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/pemanas-bunsen.jpg", bahan: "Sumbu & bahan bakar spiritus/lilin", fungsi: "Menghasilkan api untuk pemanasan sampel.", kelebihan: "Mudah dinyalakan.", kekurangan: "Suhu api dan jelaga sulit dikontrol pada lilin.", langkah: "Gunakan lampu spiritus sederhana atau kompor portabel." },
+            { id: 13, nama: "Tanur", pengganti: "Tungku pembakaran sederhana", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/AR-LASA_V4/eb7fc034c1337b063dbd05f9d5289e0098713023/ASSETS/Alat%20Lab/tanur.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/tanur.jpg", bahan: "Batu bata/Tanah liat & arang", fungsi: "Pemanasan suhu sangat tinggi (pengabuan).", kelebihan: "Suhu lumayan tinggi.", kekurangan: "Suhu sulit diukur secara pasti tanpa termokopel.", langkah: "Susun batu bata membentuk ruang bakar kecil berpenutup." },
+            { id: 14, nama: "Spatula", pengganti: "Sendok teh kecil atau stik es krim", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/spatula.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/spatula.jpg", bahan: "Stainless steel / Kayu", fungsi: "Mengambil bahan kimia padat/bubuk.", kelebihan: "Aman, anti karat.", kekurangan: "Bentuk kurang panjang.", langkah: "Gunakan sendok teh stainless steel yang kering dan bersih." },
+            { id: 15, nama: "Neraca analitik", pengganti: "Timbangan digital dapur", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/neraca-analitik.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/neraca-analitik.jpg", bahan: "Elektronik sensor", fungsi: "Menimbang massa zat padat.", kelebihan: "Praktis dan mudah dibaca.", kekurangan: "Ketelitian terbatas (biasanya hanya 0.1g atau 1g).", langkah: "Letakkan timbangan di permukaan rata dan tara ke angka nol." },
+            { id: 16, nama: "Penjepit kayu", pengganti: "Jepit baju kayu", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/penjepit-kayu.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/penjepit-kayu.jpg", bahan: "Kayu & pegas", fungsi: "Memegang tabung reaksi saat dipanaskan.", kelebihan: "Isolator panas yang baik.", kekurangan: "Jepitan kurang panjang.", langkah: "Gunakan jepit baju kayu bersih untuk memegang tabung." },
+            { id: 17, nama: "Autoklaf", pengganti: "Panci presto", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/autoklaf.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/autoklaf.jpg", bahan: "Aluminium / Stainless tebal", fungsi: "Sterilisasi alat/bahan berpemerangkap tekanan.", kelebihan: "Mampu menghasilkan uap panas bertekanan.", kekurangan: "Tidak ada pengukur suhu otomatis.", langkah: "Panaskan panci presto hingga mengeluarkan uap bertekanan." },
+            { id: 18, nama: "Batang pengaduk", pengganti: "Sendok stainless, sumpit, atau stik kaca", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/batang-pengaduk.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/batang-pengaduk.jpg", bahan: "Stainless / Kayu / Kaca", fungsi: "Mengaduk campuran larutan.", kelebihan: "Sangat mudah diperoleh.", kekurangan: "Bahan kayu dapat menyerap sedikit cairan.", langkah: "Gunakan sumpit stainless steel bersih untuk mengaduk." },
+            { id: 19, nama: "Statif", pengganti: "Tripod HP atau gantungan besi", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/statif.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/statif.jpg", bahan: "Logam / Plastik", fungsi: "Penyangga berdiri untuk klem.", kelebihan: "Tinggi dapat disesuaikan.", kekurangan: "Keseimbangan beban terbatas.", langkah: "Pasang clamp adapter pada tiang tripod HP." },
+            { id: 20, nama: "Kertas saring", pengganti: "Filter kopi atau kain katun bersih", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/kertas-saring.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/kertas-saring.jpg", bahan: "Kertas selulosa / Kain", fungsi: "Memisahkan endapan dari cairan.", kelebihan: "Daya saring cukup baik.", kekurangan: "Pori-pori relatif lebih besar dari kertas saring lab.", langkah: "Potong filter kopi berbentuk lingkaran atau corong." },
+            { id: 21, nama: "Water bath", pengganti: "Panci berisi air panas", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/water-bath.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/water-bath.jpg", bahan: "Logam panci & air", fungsi: "Pemanasan konstan dengan media air.", kelebihan: "Cepat dan aman.", kekurangan: "Suhu harus dijaga secara manual.", langkah: "Isi panci dengan air dan panaskan di atas kompor." },
+            { id: 22, nama: "Inkubator", pengganti: "Kotak styrofoam dengan lampu / rice cooker mode hangat", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/inkubator.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/inkubator.jpg", bahan: "Styrofoam & Lampu bohlam", fungsi: "Mengondisikan suhu hangat pengembang mikroba.", kelebihan: "Menjaga suhu stabil.", kekurangan: "Perlu pengecekan termometer manual.", langkah: "Pasang lampu bohlam 5W di dalam kotak styrofoam." },
+            { id: 23, nama: "Corong Buchner", pengganti: "Corong plastik yang dilapisi kertas saring", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/corong-buchner.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/corong-buchner.jpg", bahan: "Plastik & Kertas saring", fungsi: "Filtrasi vakum cepat.", kelebihan: "Sederhana.", kekurangan: "Proses filtrasi hanya bergantung pada gravitasi.", langkah: "Lapisi bagian dalam corong plastik dengan kertas saring rapat." },
+            { id: 24, nama: "Segitiga porselen", pengganti: "Tatakan besi tahan panas", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/segitiga-porselen.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/segitiga-porselen.jpg", bahan: "Kawat besi / Logam", fungsi: "Menyangga krusibel saat pemanasan.", kelebihan: "Kuat tahan beban.", kekurangan: "Bukan isolator panas seefektif porselen.", langkah: "Letakkan tatakan besi berbentuk segitiga di atas kaki tiga." },
+            { id: 25, nama: "Mikroskop", pengganti: "Lensa pembesar atau mikroskop HP", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/mikroskop.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/mikroskop.jpg", bahan: "Lensa & Kamera HP", fungsi: "Mengamati benda berukuran mikroskopis.", kelebihan: "Praktis, gambar bisa difoto.", kekurangan: "Perbesaran terbatas.", langkah: "Jepitkan lensa makro / mikroskop mini pada kamera HP." },
+            { id: 26, nama: "Laminar Air Flow", pengganti: "Kotak plastik bening tertutup (simulasi area bersih)", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/laminar-air-flow.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/laminar-air-flow.jpg", bahan: "Plastik transparan", fungsi: "Ruang kerja steril untuk inokulasi.", kelebihan: "Mencegah kontaminasi silang luar.", kekurangan: "Tanpa aliran udara terfiltrasi HEPA.", langkah: "Gunakan kontainer plastik bening berlubang samping untuk tangan." },
+            { id: 27, nama: "Tabung reaksi", pengganti: "Tabung kaca kecil (botol parfum) / botol kecil bening", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/tabung-reaksi.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/tabung-reaksi.jpg", bahan: "Kaca bening", fungsi: "Wadah mereaksikan sedikit zat kimia.", kelebihan: "Bening dan mudah diamati.", kekurangan: "Tidak semua botol parfum tahan panas langsung.", langkah: "Bersihkan botol sampel kaca dari sisa cairan." },
+            { id: 28, nama: "Gelas beker", pengganti: "Gelas takar dapur atau gelas kaca", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/gelas-beker.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/gelas-beker.jpg", bahan: "Kaca / Plastik bening", fungsi: "Menampung dan mengukur volume cairan.", kelebihan: "Mudah ditemukan.", kekurangan: "Skala takar dapur kurang presisi.", langkah: "Gunakan gelas kaca bening datar bawah." },
+            { id: 29, nama: "Labu Erlenmeyer", pengganti: "Botol kaca bentuk kerucut (botol sirup)", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/labu-erlenmeyer.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/labu-erlenmeyer.jpg", bahan: "Kaca", fungsi: "Wadah titrasi & mengocok larutan.", kelebihan: "Bentuk bagian bawah lebar dan stabil.", kekurangan: "Mulut botol sirup kadang terlalu sempit.", langkah: "Gunakan botol kaca bekas sirup yang dicuci bersih." },
+            { id: 30, nama: "Labu ukur", pengganti: "Botol kaca bertutup dengan tanda batas", gambarAsli: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/asli/labu-ukur.jpg", gambarPengganti: "https://raw.githubusercontent.com/sylverhunt/ARLASA_V1/c0ec5b3e7261eaeeb728bfcc44dfd47cffe570e1/ASSETS/materi/pengganti/labu-ukur.jpg", bahan: "Kaca", fungsi: "Membuat larutan standar volume pasti.", kelebihan: "Ekonomis.", kekurangan: "Penandaan batas volume dilakukan secara manual.", langkah: "Beri garis tanda volume pasti pada botol kaca menggunakan stiker." }
         ];
 
 let isProcessingScan = false; // Flag pengunci agar tidak scan berkali-kali
@@ -799,33 +837,55 @@ function onScanFailure(error) {
         }
 
         function renderAlatDetail() {
-            const selectedId = parseInt(document.getElementById('select-alat').value) || 1;
+            const select = document.getElementById('select-alat');
+            const selectedId = parseInt(select.value, 10) || 1;
             const item = dataAlat.find(a => a.id === selectedId);
             const card = document.getElementById('card-materi-content');
 
-            if (currentTabMode === 'asli') {
-                card.innerHTML = `
-                    <div style="text-align:center; margin-bottom:12px;">
-                        <i class="fa-solid fa-flask" style="font-size:40px; color:var(--primary);"></i>
-                        <h3 style="margin-top:6px; color:var(--primary);">${item.nama}</h3>
-                        <span style="font-size:11px; color:var(--text-sub);">Alat Laboratorium Standar #${item.id}</span>
-                    </div>
-                    <p style="font-size:13px; line-height:1.5; margin-bottom:10px;"><strong>Fungsi Utama:</strong> ${item.fungsi}</p>
-                    <p style="font-size:13px; line-height:1.5;"><strong>Spesifikasi:</strong> Bahan berkualitas laboratorium standar (borosilikat/logam presisi) dengan akurasi tinggi.</p>
-                `;
-            } else {
-                card.innerHTML = `
-                    <div style="text-align:center; margin-bottom:12px;">
-                        <i class="fa-solid fa-recycle" style="font-size:40px; color:var(--secondary);"></i>
-                        <h3 style="margin-top:6px; color:var(--secondary);">${item.pengganti}</h3>
-                        <span style="font-size:11px; color:var(--text-sub);">Sarana Pengganti Sehari-hari #${item.id}</span>
-                    </div>
-                    <p style="font-size:13px; margin-bottom:6px;"><strong>Bahan Alternatif:</strong> ${item.bahan}</p>
-                    <p style="font-size:13px; margin-bottom:6px;"><strong>Kelebihan:</strong> ${item.kelebihan}</p>
-                    <p style="font-size:13px; margin-bottom:6px;"><strong>Kekurangan:</strong> ${item.kekurangan}</p>
-                    <p style="font-size:13px; margin-bottom:6px;"><strong>Langkah Pembuatan/Aplikasi:</strong> ${item.langkah}</p>
-                `;
+            if (!item) {
+                card.innerHTML = '<p>Materi tidak ditemukan.</p>';
+                return;
             }
+
+            const isAsli = currentTabMode === 'asli';
+            const namaTampilan = isAsli ? item.nama : item.pengganti;
+            const gambar = isAsli ? item.gambarAsli : item.gambarPengganti;
+            const warna = isAsli ? 'var(--primary)' : 'var(--secondary)';
+            const label = isAsli ? 'Alat Laboratorium Standar' : 'Sarana Pengganti Sehari-hari';
+
+            card.innerHTML = `
+                <div style="text-align:center; margin-bottom:16px;">
+                    <h3 style="margin-top:4px; color:${warna}; font-size:18px;">${namaTampilan}</h3>
+                    <span style="font-size:11px; color:var(--text-sub);">${label} #${item.id}</span>
+                </div>
+
+                <div class="materi-image-wrap">
+                    <img class="materi-image"
+                         src="${gambar}"
+                         alt="Gambar ${namaTampilan}"
+                         loading="lazy"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="image-fallback" style="display:none;">
+                        <i class="fa-regular fa-image" style="font-size:30px; margin-bottom:8px;"></i>
+                        <span>Gambar belum tersedia</span>
+                        <small>Periksa nama dan lokasi file gambar di folder ASSETS/materi.</small>
+                    </div>
+                </div>
+
+                ${isAsli ? `
+                    <p style="font-size:13px; line-height:1.6; margin-bottom:10px;"><strong>Fungsi Utama:</strong> ${item.fungsi}</p>
+                    <p style="font-size:13px; line-height:1.6;"><strong>Spesifikasi:</strong> Alat laboratorium dengan bahan dan ketelitian sesuai jenis serta kebutuhan penggunaannya.</p>
+                ` : `
+                    <p style="font-size:13px; line-height:1.6; margin-bottom:6px;"><strong>Bahan Alternatif:</strong> ${item.bahan}</p>
+                    <p style="font-size:13px; line-height:1.6; margin-bottom:6px;"><strong>Fungsi yang ditiru:</strong> ${item.fungsi}</p>
+                    <p style="font-size:13px; line-height:1.6; margin-bottom:6px;"><strong>Kelebihan:</strong> ${item.kelebihan}</p>
+                    <p style="font-size:13px; line-height:1.6; margin-bottom:6px;"><strong>Kekurangan:</strong> ${item.kekurangan}</p>
+                    <p style="font-size:13px; line-height:1.6; margin-bottom:6px;"><strong>Langkah Pembuatan/Aplikasi:</strong> ${item.langkah}</p>
+                    <div style="margin-top:10px; padding:10px; background:#fff7ed; color:#9a3412; border-radius:8px; font-size:12px;">
+                        <strong>Catatan keselamatan:</strong> Sarana pengganti hanya untuk demonstrasi konsep sederhana. Jangan gunakan pengganti untuk bahan berbahaya, pemanasan bertekanan, sterilisasi, atau pengukuran presisi tanpa penilaian keselamatan dan validasi yang sesuai.
+                    </div>
+                `}
+            `;
         }
 
         /* --- LOGIKA PERBANDINGAN ALAT --- */
