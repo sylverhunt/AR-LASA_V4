@@ -188,6 +188,58 @@
             .materi-image-wrap { height: 190px; }
         }
 
+
+        /* Perbandingan gambar alat asli dan pengganti */
+        .compare-images {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            width: 100%;
+            margin: 12px 0 16px;
+        }
+        .compare-image-item {
+            min-width: 0;
+            text-align: center;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 8px;
+        }
+        .compare-image-wrap {
+            width: 100%;
+            height: 145px;
+            background: #f8fafc;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .compare-image-wrap img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 5px;
+        }
+        .compare-image-label {
+            font-size: 12px;
+            font-weight: 700;
+            margin-top: 9px;
+            line-height: 1.4;
+            overflow-wrap: anywhere;
+        }
+        .compare-image-type {
+            font-size: 10px;
+            color: #64748b;
+            margin-top: 3px;
+        }
+        @media (max-width: 380px) {
+            .compare-images { gap: 8px; }
+            .compare-image-wrap { height: 115px; }
+            .compare-image-item { padding: 5px; }
+        }
+
     </style>
 </head>
 <body>
@@ -597,15 +649,49 @@
         </div>
 
         <div class="card">
-            <div style="display: flex; gap: 10px; margin-bottom: 10px;">
-                <div style="flex: 1; background: #eff6ff; padding: 10px; border-radius: 8px; text-align: center;">
-                    <i class="fa-solid fa-flask" style="font-size: 24px; color: var(--primary);"></i>
-                    <p style="font-weight: 700; font-size: 12px; margin-top: 4px;" id="comp-nama-asli">Alat Asli</p>
+
+            <h3 style="font-size:15px; margin-bottom:5px;">
+                Perbandingan Visual
+            </h3>
+            <p style="font-size:11px; color:#64748b;">
+                Amati perbedaan alat laboratorium asli
+                dan sarana penggantinya.
+            </p>
+
+            <div class="compare-images">
+
+                <!-- GAMBAR ALAT ASLI -->
+                <div class="compare-image-item">
+                    <div class="compare-image-wrap">
+                        <img id="comp-gambar-asli"
+                             src=""
+                             alt="Gambar alat laboratorium asli"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-fallback" style="display:none;">
+                            <i class="fa-regular fa-image" style="font-size:25px;"></i>
+                            <span>Gambar tidak tersedia</span>
+                        </div>
+                    </div>
+                    <div class="compare-image-label" id="comp-nama-asli">Alat Asli</div>
+                    <div class="compare-image-type">Alat laboratorium standar</div>
                 </div>
-                <div style="flex: 1; background: #f0fdf4; padding: 10px; border-radius: 8px; text-align: center;">
-                    <i class="fa-solid fa-recycle" style="font-size: 24px; color: var(--secondary);"></i>
-                    <p style="font-weight: 700; font-size: 12px; margin-top: 4px;" id="comp-nama-pengganti">Sarana Pengganti</p>
+
+                <!-- GAMBAR SARANA PENGGANTI -->
+                <div class="compare-image-item">
+                    <div class="compare-image-wrap">
+                        <img id="comp-gambar-pengganti"
+                             src=""
+                             alt="Gambar sarana pengganti"
+                             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="image-fallback" style="display:none;">
+                            <i class="fa-regular fa-image" style="font-size:25px;"></i>
+                            <span>Gambar tidak tersedia</span>
+                        </div>
+                    </div>
+                    <div class="compare-image-label" id="comp-nama-pengganti">Sarana Pengganti</div>
+                    <div class="compare-image-type">Alternatif sederhana</div>
                 </div>
+
             </div>
 
             <table>
@@ -619,9 +705,10 @@
                 <tbody id="table-compare-body"></tbody>
             </table>
 
-            <div style="margin-top: 12px; padding: 10px; background: #fffbe3; border-left: 3px solid #f59e0b; border-radius: 4px; font-size: 11px; color: #b45309;" id="comp-kesimpulan">
+            <div style="margin-top:12px; padding:10px; background:#fffbe3; border-left:3px solid #f59e0b; border-radius:4px; font-size:11px; color:#b45309;" id="comp-kesimpulan">
                 -
             </div>
+
         </div>
 
         <button class="btn btn-outline" onclick="navigateTo('screen-8')">Kembali ke Daftar Materi</button>
@@ -902,13 +989,55 @@ function onScanFailure(error) {
         }
 
         function renderCompareDetail() {
-            const selectedId = parseInt(document.getElementById('select-compare').value) || 1;
+            const selectedId =
+                parseInt(document.getElementById('select-compare').value, 10) || 1;
+
             const item = dataAlat.find(a => a.id === selectedId);
 
-            document.getElementById('comp-nama-asli').innerText = item.nama;
-            document.getElementById('comp-nama-pengganti').innerText = item.pengganti;
+            if (!item) return;
 
-            const tbody = document.getElementById('table-compare-body');
+            // Nama alat
+            document.getElementById('comp-nama-asli').innerText =
+                item.nama;
+
+            document.getElementById('comp-nama-pengganti').innerText =
+                item.pengganti;
+
+            // Tampilkan gambar asli dan gambar pengganti
+            function setCompareImage(elementId, imageUrl, altText) {
+                const img = document.getElementById(elementId);
+                const fallback = img.nextElementSibling;
+
+                img.style.display = 'block';
+                img.alt = altText;
+                fallback.style.display = 'none';
+                img.removeAttribute('src');
+
+                if (!imageUrl) {
+                    img.style.display = 'none';
+                    fallback.style.display = 'flex';
+                    return;
+                }
+
+                img.src = imageUrl;
+            }
+
+            setCompareImage(
+                'comp-gambar-asli',
+                item.gambarAsli,
+                item.nama
+            );
+
+            setCompareImage(
+                'comp-gambar-pengganti',
+                item.gambarPengganti,
+                item.pengganti
+            );
+
+            // Tabel perbandingan
+            const tbody =
+                document.getElementById('table-compare-body');
+
             tbody.innerHTML = `
                 <tr>
                     <td><strong>Fungsi</strong></td>
@@ -927,7 +1056,12 @@ function onScanFailure(error) {
                 </tr>
             `;
 
-            document.getElementById('comp-kesimpulan').innerText = "💡 Kesimpulan Kesetaraan: " + item.pengganti + " dapat digunakan untuk pembelajaran konsep dasar, namun untuk pengukuran kuantitatif presisi tetap disarankan memakai " + item.nama + " standar.";
+            // Kesimpulan
+            document.getElementById('comp-kesimpulan').innerText =
+                "💡 Kesimpulan Kesetaraan: " +
+                item.pengganti +
+                " dapat digunakan untuk pembelajaran konsep dasar, namun untuk pengukuran kuantitatif presisi tetap disarankan memakai " +
+                item.nama + " standar.";
         }
 
         /* --- LOGIKA KATALOG / KARTU MEDIA --- */
