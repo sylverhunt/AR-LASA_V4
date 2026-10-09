@@ -49,6 +49,14 @@
         .btn-danger { background-color: var(--danger); box-shadow: 0 4px 12px rgba(229, 57, 53, 0.25); }
         .btn-outline { background: white; color: var(--text-main); border: 1px solid #e2e8f0; box-shadow: 0 2px 8px rgba(0,0,0,0.03); }
 
+        /* Navigasi Sebelumnya/Selanjutnya pada submateri */
+        .materi-navigation {
+            display: flex; gap: 12px; width: 100%; max-width: 480px;
+            margin: 12px 0 8px;
+        }
+        .materi-navigation .btn { flex: 1; margin: 0; min-width: 0; padding: 12px 10px; }
+        .materi-navigation .btn:disabled { opacity: .45; cursor: not-allowed; box-shadow: none; }
+
         /* Menu Grid */
         .grid-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; width: 100%; max-width: 480px; margin-top: 10px; }
         .menu-card { background: white; border-radius: var(--radius-lg); padding: 16px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); cursor: pointer; transition: transform 0.2s; border: 1px solid #f1f5f9; }
@@ -633,6 +641,14 @@
 
         <div class="card" id="card-materi-content"></div>
 
+        <div class="materi-navigation">
+            <button class="btn" id="btn-prev-materi" onclick="navigateMateriItem(-1)">
+                <i class="fa-solid fa-chevron-left"></i> Sebelumnya
+            </button>
+            <button class="btn" id="btn-next-materi" onclick="navigateMateriItem(1)">
+                Selanjutnya <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
         <button class="btn btn-outline" onclick="navigateTo('screen-8')">Kembali ke Daftar Materi</button>
     </div>
 
@@ -711,6 +727,14 @@
 
         </div>
 
+        <div class="materi-navigation">
+            <button class="btn" id="btn-prev-compare" onclick="navigateCompareItem(-1)">
+                <i class="fa-solid fa-chevron-left"></i> Sebelumnya
+            </button>
+            <button class="btn" id="btn-next-compare" onclick="navigateCompareItem(1)">
+                Selanjutnya <i class="fa-solid fa-chevron-right"></i>
+            </button>
+        </div>
         <button class="btn btn-outline" onclick="navigateTo('screen-8')">Kembali ke Daftar Materi</button>
     </div>
 
@@ -973,6 +997,22 @@ function onScanFailure(error) {
                     </div>
                 `}
             `;
+
+            // Perbarui status tombol navigasi alat sebelumnya/selanjutnya.
+            const prevButton = document.getElementById('btn-prev-materi');
+            const nextButton = document.getElementById('btn-next-materi');
+            if (prevButton) prevButton.disabled = selectedId <= 1;
+            if (nextButton) nextButton.disabled = selectedId >= dataAlat.length;
+        }
+
+        function navigateMateriItem(direction) {
+            const select = document.getElementById('select-alat');
+            const currentId = parseInt(select.value, 10) || 1;
+            const nextId = currentId + direction;
+            if (nextId < 1 || nextId > dataAlat.length) return;
+            select.value = String(nextId);
+            renderAlatDetail();
+            document.getElementById('screen-materi-detail').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         /* --- LOGIKA PERBANDINGAN ALAT --- */
@@ -1062,6 +1102,22 @@ function onScanFailure(error) {
                 item.pengganti +
                 " dapat digunakan untuk pembelajaran konsep dasar, namun untuk pengukuran kuantitatif presisi tetap disarankan memakai " +
                 item.nama + " standar.";
+
+            // Perbarui status tombol navigasi perbandingan.
+            const prevButton = document.getElementById('btn-prev-compare');
+            const nextButton = document.getElementById('btn-next-compare');
+            if (prevButton) prevButton.disabled = item.id <= 1;
+            if (nextButton) nextButton.disabled = item.id >= dataAlat.length;
+        }
+
+        function navigateCompareItem(direction) {
+            const select = document.getElementById('select-compare');
+            const currentId = parseInt(select.value, 10) || 1;
+            const nextId = currentId + direction;
+            if (nextId < 1 || nextId > dataAlat.length) return;
+            select.value = String(nextId);
+            renderCompareDetail();
+            document.getElementById('screen-11').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         /* --- LOGIKA KATALOG / KARTU MEDIA --- */
