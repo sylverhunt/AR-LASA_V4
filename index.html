@@ -344,7 +344,7 @@
             </div>
             <div class="menu-card" onclick="navigateTo('screen-13')">
                 <div class="icon-box bg-light-blue"><i class="fa-solid fa-id-card"></i></div>
-                <span>Kartu Media</span>
+                <span>Daftar Alat</span>
             </div>
         </div>
 
@@ -762,11 +762,11 @@
         <button class="btn btn-outline" onclick="navigateTo('screen-2')">Kembali ke Menu</button>
     </div>
 
-    <!-- ================= 13. KARTU MEDIA ================= -->
+    <!-- ================= 13. DAFTAR ALAT ================= -->
     <div id="screen-13" class="screen">
         <div class="header-title">
             <button class="back-btn" onclick="navigateTo('screen-2')"><i class="fa-solid fa-chevron-left"></i></button>
-            KARTU MEDIA
+            DAFTAR ALAT
         </div>
 
         <div class="card" style="padding: 10px;">
@@ -1120,7 +1120,7 @@ function onScanFailure(error) {
             document.getElementById('screen-11').scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        /* --- LOGIKA KATALOG / KARTU MEDIA --- */
+        /* --- LOGIKA KATALOG / DAFTAR ALAT --- */
         function renderKatalog() {
             const tbody = document.getElementById('katalog-body');
             tbody.innerHTML = '';
